@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Play M3U8 Video</title>
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+    <script src="//content.jwplatform.com/libraries/SAHhwvZq.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(to bottom right, #003366, #000000);
+            color: #fff;
+            font-family: 'Montserrat', sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 3rem;
+            color: #ffcc00;
+            margin-bottom: 15px;
+            font-weight: bold;
+            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.6);
+            transition: color 0.3s ease-in-out;
+        }
+
+        h1:hover {
+            color: #ffd700;
+        }
+
+        .video-container {
+            width: 100%;
+            max-width: 90vw;
+            position: relative;
+            border-radius: 15px;
+            overflow: hidden;
+            background: #000;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.8);
+        }
+
+        /* JW Player Styling */
+        #jwplayerDiv {
+            width: 100%;
+            height: 100%;
+            border-radius: 12px;
+        }
+
+        .quality-btn {
+            margin-top: 15px;
+            background-color: #ffd700;
+            color: #222;
+            font-weight: bold;
+            border: none;
+            border-radius: 8px;
+            padding: 12px 24px;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .quality-menu {
+            position: absolute;
+            bottom: 70px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.9);
+            padding: 10px;
+            border-radius: 12px;
+            box-shadow: 0 6px 18px rgba(255, 215, 0, 0.3);
+            z-index: 10;
+            width: 200px;
+            display: none;
+            border: 2px solid #ffd700;
+            box-sizing: border-box;
+        }
+
+        .quality-menu button {
+            background: none;
+            color: #fff;
+            border: none;
+            padding: 8px 12px;
+            width: 45%;
+            text-align: center;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            border-radius: 8px;
+        }
+
+        .quality-menu button:hover {
+            background-color: #ffd700;
+            color: #222;
+        }
+
+        @media (max-width: 600px) {
+            .quality-menu {
+                width: 70%;
+                bottom: 60px;
+            }
+            .quality-menu button {
+                font-size: 0.85rem;
+                padding: 7px 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <h1>CRICKET CLIPS PROVIDER</h1>
+
+    <div class="video-container">
+        <div id="jwplayerDiv"></div>
+
+        <div class="quality-menu" id="qualityMenu">
+            <div>
+                <button id="quality144p">144p</button>
+                <button id="quality240p">240p</button>
+                <button id="quality360p">360p</button>
+            </div>
+            <div>
+                <button id="quality540p">540p</button>
+                <button id="quality720p">720p</button>
+                <button id="quality1080p">1080p</button>
+            </div>
+        </div>
+    </div>
+
+    <button class="quality-btn" onclick="toggleQualityMenu()">Quality Settings</button>
+
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const m3u8Url = urlParams.get('url'); // No default link
+
+        if (m3u8Url) {
+            jwplayer("jwplayerDiv").setup({
+                file: m3u8Url,
+                autostart: true,
+                width: "100%",
+                height: "100%",
+                stretching: "uniform",
+                type: "hls",
+            });
+        } else {
+            alert('No M3U8 link provided!');
+        }
+
+        function toggleQualityMenu() {
+            const qualityMenu = document.getElementById('qualityMenu');
+            qualityMenu.style.display = qualityMenu.style.display === 'block' ? 'none' : 'block';
+        }
+    </script>
+
+</body>
+</html>
